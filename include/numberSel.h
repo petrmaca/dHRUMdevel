@@ -1,6 +1,7 @@
 #ifndef NUMBERSEL_H_INCLUDED
 #define NUMBERSEL_H_INCLUDED
 
+#include <vector>
 #include <iomanip>
 #include <limits>
 #include <string>

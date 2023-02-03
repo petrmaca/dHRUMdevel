@@ -33,6 +33,7 @@ data_HB_1d::data_HB_1d(): numTS(0),
   Melt(1,1),
   Perc(1,1),
   Pref(1,1),
+  LAI(1,1),
   init_SoiS(0.0),
   init_GroS(0.0),
   init_CanS(0.0),
@@ -156,6 +157,7 @@ data_HB_1d::data_HB_1d(const data_HB_1d& other): numTS(0),
   Melt(1,1),
   Perc(1,1),
   Pref(1,1),
+  LAI(1,1),
   init_SoiS(0.0),
   init_GroS(0.0),
   init_CanS(0.0),
@@ -198,6 +200,7 @@ data_HB_1d::data_HB_1d(const data_HB_1d& other): numTS(0),
   Melt = other.Melt;//!< Melting
   Perc = other.Perc;//!< Percolation
   Pref = other.Pref;//!< Effective Precipitation
+  LAI = other.LAI;//!< Leaf Area Index
   init_SoiS = other.init_SoiS;//!< Initial value of soil storage
   init_GroS = other.init_GroS;//!< Initial value of groundwater storage
   init_CanS = other.init_SteS;//!< Initial value of Canopy Interception storage
@@ -246,6 +249,7 @@ data_HB_1d& data_HB_1d::operator=(const data_HB_1d& rhs) {
     Melt = rhs.Melt;//!< Melting
     Perc = rhs.Perc;//!< Percolation
     Pref = rhs.Pref;//!< Effective Precipitation
+    LAI = rhs.LAI;//!< Leaf Area Index
     init_SoiS = rhs.init_SoiS;//!< Initial value of soil storage
     init_GroS = rhs.init_GroS;//!< Initial value of groundwater storage
     init_CanS = rhs.init_SteS;//!< Initial value of Canopy Interception storage
@@ -354,7 +358,11 @@ void data_HB_1d::s_data(const hdata& dta,const ts_type& _tsType, bool updateNumT
     break;
   case ts_type::PREF:
     Pref = dta;
-//    std::cout << "New Peef --> loaded\n";
+//    std::cout << "New Pref --> loaded\n";
+    break;
+  case ts_type::LAI:
+    LAI = dta;
+//    std::cout << "New LAI --> loaded\n";
     break;
   }
 //    //PRE.insert(PRE.begin(), data);
@@ -441,6 +449,9 @@ void data_HB_1d::s_varVal(const numberSel& dta, const unsigned& tst,const ts_typ
   case ts_type::PREF:
     Pref[tst] = dta;
     break;
+  case ts_type::LAI:
+    LAI[tst] = dta;
+    break;    
   }
 
   return ;
@@ -498,6 +509,8 @@ numberSel data_HB_1d::g_dta(const unsigned& tst,const ts_type& _tsType) {
     return Perc[tst];
   case ts_type::PREF:
     return Pref[tst];
+  case ts_type::LAI:
+    return LAI[tst];    
   }
 
   return 0;
@@ -1090,6 +1103,8 @@ hdata data_HB_1d::get_HbTsData(const ts_type& _tsType) {
     return Perc;
   case ts_type::PREF:
     return Pref;
+  case ts_type::LAI:
+    return LAI;    
   }
 
   hdata helpV(-9999,1);
@@ -1190,6 +1205,9 @@ void data_HB_1d::setOneTstoZero(const ts_type& _tsType) {
   case ts_type::PREF:
     Pref = 0.0;
     break;
+  case ts_type::LAI:
+    LAI = 0.0;
+    break;    
   }
 
   return ;

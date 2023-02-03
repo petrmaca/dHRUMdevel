@@ -122,6 +122,7 @@ class data_HB_1d {
   hdata Melt;//!< SnowMelt
   hdata Perc;//!< Percolation
   hdata Pref;//!< Effective Precipitation
+  hdata LAI;//!< Leaf Area Index
 
   numberSel init_SoiS;//!< Initial value of soil storage
   numberSel init_GroS;//!< Initial value of groundwater storage

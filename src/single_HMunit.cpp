@@ -1338,6 +1338,7 @@ void single_HMunit::init_inputs(numberSel val, unsigned numDTA) {
   //!< Surface retention
   set_data(dta,ts_type::SURS);
   set_data(dta,ts_type::PREF);
+  set_data(dta,ts_type::LAI);
   // std::cout << " precf ok\n";
   //!< soil percolation
   set_data(dta,ts_type::EVBS);

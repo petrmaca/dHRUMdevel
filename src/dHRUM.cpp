@@ -460,11 +460,11 @@ caldata dHRUM::get_CalDta(const cal_Type& _calType){
 }
 
 
-void dHRUM::loadPTDatToAllHrus(hdata Prec, hdata Temp, const numberSel& val,const unsigned& inYear, const unsigned& inMonth,const unsigned& inDay) {
+void dHRUM::loadPTLDatToAllHrus(hdata Prec, hdata Temp, hdata Lai, const numberSel& val,const unsigned& inYear, const unsigned& inMonth,const unsigned& inDay) {
 
 #pragma omp parallel for
   for(unsigned it=0; it<dimHM; it++) {
-    dHruVec[it].load_data_PT(Prec,Temp,val,inYear,inMonth,inDay);
+    dHruVec[it].load_data_PTLAI(Prec,Temp, Lai, val,inYear,inMonth,inDay);
   }
 
   initdHRUbasinDTA();
@@ -536,9 +536,9 @@ void dHRUM::print_Pars() {
 }
 
 
-void dHRUM::loadPTInputsToOneHru(hdata Prec, hdata Temp, const numberSel& val,const unsigned& inYear, const unsigned& inMonth,const unsigned& inDay, unsigned HruIt) {
+void dHRUM::loadPTLInputsToOneHru(hdata Prec, hdata Temp, hdata Lai, const numberSel& val,const unsigned& inYear, const unsigned& inMonth,const unsigned& inDay, unsigned HruIt) {
 
-  dHruVec[HruIt].load_data_PT(Prec,Temp,val,inYear,inMonth,inDay);
+  dHruVec[HruIt].load_data_PTLAI(Prec,Temp,Lai,val,inYear,inMonth,inDay);
 
   return;
 
@@ -582,3 +582,5 @@ void dHRUM::set_numFastReservoirs(caldata numFR){
   }
 
 }
+
+

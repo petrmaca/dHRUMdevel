@@ -47,6 +47,7 @@ data_HB_1d hdta;
 //    parr.s_params(3,parsInfo[1]);*/
   hdata prec{10, 0,4, 0, 10, 1, 0, 1,10,10,20,0,0,0,0,0};
   hdata temp{-10, 0,-4, 0, -10, 0, 0, 1,1,10,10,0,2,2,2,4}; 
+  hdata lai{0, 0,4, 0, 10, 0, 0, 1,1,10,10,0,2,2,2,40}; 
 
   single_HMunit sHRU;
   sHRU.set_paramsToSim(parsToLoad);
@@ -57,7 +58,7 @@ data_HB_1d hdta;
   sHRU.set_GStype(gs_STORtype::EXP_RES);
 //  sHRU.print_GStype();
     for (unsigned i=0;i<1; i++) {
-    sHRU.load_data_PT(prec,temp,0.0,1900,1,1);
+    sHRU.load_data_PTLAI(prec,temp,lai,0.0,1900,1,1);
     sHRU.set_PetVars(50.1,pet_Type::HAMON);
     sHRU.calc_Pet();
     sHRU.run_HB();
@@ -205,7 +206,7 @@ data_HB_1d hdta;
   dhruPTR3->calcPetToAllHrus(50.1, pet_Type::HAMON);
   dhruPTR3->calcHbToAllHrus();
   dhruPTR3->gatherTsFromHrus();
-//  dhru.printAllDta("./data/tests/outALL/outALLdta_BPpart.txt");
+ // dhruPTR3->printAllDta("./data/tests/outALL/outALLdta_BPpart.txt");
   dhruPTR3->printAllDta("./data/tests/outALL/outALLdta_BP.txt");
 
   return 0;

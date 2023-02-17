@@ -164,6 +164,13 @@ void single_HMunit::set_data_prec_temp(const hdata& _prec_dta,const hdata& _temp
   return ;
 }
 
+
+void single_HMunit::set_data_lai(const hdata& _lai_dta){
+
+  hyd_dta.s_data(_lai_dta,ts_type::LAI,true);
+
+}
+
 unsigned single_HMunit::get_numdta() {
 
   return hyd_dta.g_numdta();
@@ -1366,7 +1373,7 @@ void single_HMunit::init_inputs(numberSel val, unsigned numDTA) {
  * \param temperature data same size as precipitation data
  *
  */
-void single_HMunit::load_data_PT(const hdata& prec_input, const hdata& temp_input, const numberSel& val,const unsigned& inYear, const unsigned& inMonth,const unsigned& inDay) {
+void single_HMunit::load_data_PTLAI(const hdata& prec_input, const hdata& temp_input, const hdata& lai_input, const numberSel& val,const unsigned& inYear, const unsigned& inMonth,const unsigned& inDay) {
 
   unsigned helpnumDTA;
 
@@ -1386,6 +1393,9 @@ void single_HMunit::load_data_PT(const hdata& prec_input, const hdata& temp_inpu
   init_inputs(val, helpnumDTA);
   // std::cout << "\n init inputs 2\n";
   set_data_prec_temp(prec_input,temp_input);
+
+  set_data_lai(lai_input);
+
   // std::cout << "\n PT data inputs 1\n";
   set_calender(inYear,inMonth,inDay,helpnumDTA);
   // std::cout << "\n class 1\n";
@@ -1545,7 +1555,7 @@ void single_HMunit::read_InputFromFile(const std::string& Filet) {
   unsigned numLinesInFile = 0;
   std::string line;
 
-  hdata helpTemp, helpPrec;
+  hdata helpTemp, helpPrec, helpLai;
 // std::cout << "strating opening\n";
   infilet.open(Filet.c_str());
   if(infilet.is_open()) {
@@ -1560,18 +1570,19 @@ void single_HMunit::read_InputFromFile(const std::string& Filet) {
     numLinesInFile--;
     helpTemp.resize(numLinesInFile);
     helpPrec.resize(numLinesInFile);
+    helpLai.resize(numLinesInFile);
         // std::cout << "foor loop Number of lines in file: " << Filet.c_str() << " equals to " << numLinesInFile << "." << std::endl;
     for(unsigned it=0; it<numLinesInFile; it++) {
       std::string lineVal;
       if(it==0) getline(infilet,lineVal);// reading the first line with year month  day
       getline(infilet, lineVal);
       std::stringstream valueBuffer(lineVal);
-      valueBuffer >> helpTemp[it] >> helpPrec[it];
+      valueBuffer >> helpTemp[it] >> helpPrec[it] >> helpLai[it];
     }
         // std::cout <<std::endl << helpPrec[0] << " " << helpTemp[0] << " size " << helpPrec.size() << std::endl;
     infilet.close();
 // std::cout << "load_data";
-    load_data_PT(helpPrec,helpTemp,0.0,helpInitYear,helpInitMonth,helpInitDay);
+    load_data_PTLAI(helpPrec,helpTemp,helpLai,0.0,helpInitYear,helpInitMonth,helpInitDay);
 
     // std::cout << "\nload_data loade";
 
